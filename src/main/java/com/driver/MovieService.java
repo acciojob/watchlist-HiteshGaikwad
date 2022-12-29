@@ -12,7 +12,7 @@ public class MovieService {
   public MovieRepository movieRepository;
 
   //Add movie to service layer
-  String addMovie(Movie movie){
+ public String addMovie(Movie movie){
 
     String result= movieRepository.addMovieToDb(movie);
 
@@ -20,7 +20,7 @@ public class MovieService {
   }
 
   //Add director to service layer
-  String addDirector(Director director){
+ public String addDirector(Director director){
 
     String result=movieRepository.addDirectorToDb(director);
 
@@ -28,7 +28,7 @@ public class MovieService {
   }
 
   //Add movies and director to service layer
-  String addMovieDirectorPair(String movieName, String directorName){
+ public String addMovieDirectorPair(String movieName, String directorName){
 
     String result=movieRepository.addMovieDirectorToDb(movieName,directorName);
 
@@ -36,7 +36,7 @@ public class MovieService {
   }
 
   //get movie by name
-  Movie getMovieByName(String movieName){
+  public Movie getMovieByName(String movieName){
 
     Movie movie=movieRepository.getMovieByName(movieName);
 
@@ -44,7 +44,7 @@ public class MovieService {
   }
 
   //get director by name
-  Director getDirectorByName(String directorName){
+  public Director getDirectorByName(String directorName){
 
     Director director=movieRepository.getDirectorByName(directorName);
 
@@ -52,28 +52,28 @@ public class MovieService {
   }
 
   //Get list of movies from director name
-  List<String> getMoviesByDirectorName(String directorName){
+   public List<String> getMoviesByDirectorName(String directorName){
 
     List<String> list=movieRepository.getMoviesByDirectorNameFromDb(directorName);
     return list;
   }
 
   //Get list of all movies added
-    List<String> findAllMovies() {
+    public List<String> findAllMovies() {
 
       List<String> list = movieRepository.getMoviesFromDb();
       return list;
     }
 
     //Delete director by director name
-  String deleteDirectorByName(String name){
+ public String deleteDirectorByName(String name){
 
     String result=movieRepository.deleteFromDirectoryDb(name);
     return result;
   }
 
   //Delete all directors and all movies from records
-  String deleteAllDirectors(){
+  public String deleteAllDirectors(){
     String result=movieRepository.deleteFromRecords();
 
     return result;

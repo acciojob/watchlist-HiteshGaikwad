@@ -12,7 +12,7 @@ public class MovieRepository {
 
   HashMap<String, Movie> movieDb=new HashMap<>();
   HashMap<String, Director> directorDb=new HashMap<>();
-    HashMap<String, String> movieDirectorDb=new HashMap<>();
+    HashMap<String, List<String>> movieDirectorDb=new HashMap<>();
 
    //Add Movie to DB
     public String addMovieToDb(Movie movie){
@@ -36,8 +36,13 @@ public class MovieRepository {
 
 //        Movie movie=movieDb.get(movieName);
 //        Director director= directorDb.get(directorName);
-        movieDirectorDb.put(movieName,directorName);
-
+        if(movieDirectorDb.containsKey(directorName)){
+            movieDirectorDb.get(directorName).add(movieName);
+        }else {
+            List<String> list=new ArrayList<>();
+            list.add(movieName);
+            movieDirectorDb.put(directorName,list);
+        }
         return "Successfully Added.";
     }
 
@@ -57,18 +62,18 @@ public class MovieRepository {
     public List<String> getMoviesByDirectorNameFromDb(String directorName){
 
         List<String> list=new ArrayList<String>();
-        for(String name: movieDirectorDb.keySet()) {
-            if (movieDirectorDb.get(name).equals(directorName)) {
-                list.add(name);
-            }
-        }
+//        for(String name: movieDirectorDb.keySet()) {
+//            if (name.equals(directorName)) {
+//                list.add(movieDirectorDb.get(name));
+//            }
+//        }
 //        for(Movie movie: movieDirectorDb.keySet()){
 //           Director director= movieDirectorDb.get(movie);
 //            if(director.getName().equals(directorName)){
 //                list.add(movie.getName());
 //            }
 //        }
-        return list;
+        return movieDirectorDb.get(directorName);
     }
 
     //Get list of all movies added to DB
@@ -93,8 +98,13 @@ public class MovieRepository {
 //        for(Movie movie: movieDirectorDb.keySet()){
 //            Director director=movieDirectorDb.get(movie);
         for(String name: movieDirectorDb.keySet()){
-            movieDb.remove(name);
-            directorDb.remove(movieDirectorDb.get(name));
+            directorDb.remove(name);
+            int i=0;
+            List<String> list=movieDirectorDb.get(name);
+            while(i<list.size()) {
+                movieDb.remove(list.get(i));
+                i++;
+            }
         }
         return "Successfully Deleted";
     }
