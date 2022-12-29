@@ -2,13 +2,14 @@ package com.driver;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @org.springframework.stereotype.Service
 public class MovieService {
 
   @Autowired
-  MovieRepository movieRepository;
+  public MovieRepository movieRepository;
 
   //Add movie to service layer
   String addMovie(Movie movie){
@@ -53,7 +54,7 @@ public class MovieService {
   //Get list of movies from director name
   List<String> getMoviesByDirectorName(String directorName){
 
-    List<String> list=movieRepository.getMoviesByDirectorName(directorName);
+    List<String> list=movieRepository.getMoviesByDirectorNameFromDb(directorName);
     return list;
   }
 
@@ -77,6 +78,5 @@ public class MovieService {
 
     return result;
   }
-
 
 }
