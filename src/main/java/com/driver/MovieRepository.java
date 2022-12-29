@@ -22,20 +22,17 @@ public class MovieRepository {
     }
 
     //Add Movie to DB
-    public String addMovieToDb(Movie movie){
+    public void addMovieToDb(Movie movie){
         String key= movie.getName();
         movieDb.put(key,movie);
-
-        return "Successfully Added.";
     }
 
     //Add director to Db
-    public String addDirectorToDb(Director director){
+    public void addDirectorToDb(Director director){
 
         String key=director.getName();
         directorDb.put(key,director);
 
-        return "Successfully Added.";
     }
 
     //Add Movie and Director to DB

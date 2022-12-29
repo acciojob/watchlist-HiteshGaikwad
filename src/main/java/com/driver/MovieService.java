@@ -12,19 +12,15 @@ public class MovieService {
   public MovieRepository movieRepository;
 
   //Add movie to service layer
- public String addMovie(Movie movie){
+ public void addMovie(Movie movie){
 
-    String result= movieRepository.addMovieToDb(movie);
-
-    return result;
+     movieRepository.addMovieToDb(movie);
   }
 
   //Add director to service layer
- public String addDirector(Director director){
+ public void addDirector(Director director){
 
-    String result=movieRepository.addDirectorToDb(director);
-
-    return result;
+    movieRepository.addDirectorToDb(director);
   }
 
   //Add movies and director to service layer

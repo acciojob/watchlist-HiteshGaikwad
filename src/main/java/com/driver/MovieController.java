@@ -10,37 +10,37 @@ import java.util.List;
 
 @RestController
 
- //@RequestMapping("/movies")
+ @RequestMapping("movies")
 public class MovieController {
 
 
 
     @Autowired
-    public MovieService movieService;
+     MovieService movieService;
 
 
     //Add movie
-    @PostMapping("/movies/add_movie")
+    @PostMapping("/add-movie")
     public ResponseEntity<String> addMovie(@RequestBody() Movie movie){
 
-        String response= movieService.addMovie(movie);
+         movieService.addMovie(movie);
 
-        return new ResponseEntity<>(response,HttpStatus.CREATED);
+        return new ResponseEntity<>("Movie added successfully.",HttpStatus.CREATED);
     }
 
     //Add director
-    @PostMapping("/movies/add_director")
+    @PostMapping("/add-director")
     public ResponseEntity<String> addDirector(@RequestBody() Director director){
 
-        String response= movieService.addDirector(director);
+        movieService.addDirector(director);
 
-        return new ResponseEntity<>(response,HttpStatus.CREATED);
+        return new ResponseEntity<>("Director added successfully.",HttpStatus.CREATED);
 
     }
 
     //updating movie and director together
-    @PutMapping("/movies/add-movie-director-pair")
-    public ResponseEntity<String> addMovieDirectorPair(@RequestParam("name") String movieName, @RequestParam("name") String directorName){
+    @PutMapping("/add-movie-director-pair")
+    public ResponseEntity<String> addMovieDirectorPair(@RequestParam("movieName") String movieName, @RequestParam("directorName") String directorName){
 
         String response = movieService.addMovieDirectorPair(movieName,directorName);
 
@@ -48,7 +48,7 @@ public class MovieController {
     }
 
     //Get movie by name
-    @GetMapping("/movies/get-movie-by-name/{name}")
+    @GetMapping("get-movie-by-name/{name}")
     public ResponseEntity<Movie> getMovieByName(@PathVariable("name") String movieName){
 
         Movie movie=movieService.getMovieByName(movieName);
@@ -57,7 +57,7 @@ public class MovieController {
     }
 
     //Get director by name
-    @GetMapping("/movies/get-director-by-name/{name}")
+    @GetMapping("/get-director-by-name/{name}")
     public ResponseEntity<Director> getDirectorByName(@PathVariable("name") String directorName){
 
         Director director=movieService.getDirectorByName(directorName);
@@ -66,7 +66,7 @@ public class MovieController {
     }
 
     //Get list of movies from director name
-    @GetMapping("/movies/get-movies-by-director-name/{director}")
+    @GetMapping("/get-movies-by-director-name/{director}")
     public ResponseEntity<List<String>> getMoviesByDirectorName(@PathVariable("director") String director){
 
         List<String> list= movieService.getMoviesByDirectorName(director);
@@ -74,7 +74,7 @@ public class MovieController {
     }
 
     //get list of all movies added
-    @GetMapping("/movies/get-all-movies")
+    @GetMapping("/get-all-movies")
     public ResponseEntity<List<String>> findAllMovies(){
 
         List<String> list= movieService.findAllMovies();
@@ -82,7 +82,7 @@ public class MovieController {
     }
 
     //Delete director by director name
-    @DeleteMapping("/movies/delete-director-by-name")
+    @DeleteMapping("/delete-director-by-name")
     public ResponseEntity<String> deleteDirectorByName(@RequestParam("name") String name){
 
         String response=movieService.deleteDirectorByName(name);
@@ -90,7 +90,7 @@ public class MovieController {
     }
 
     //Delete All directors and all movies from the records
-    @DeleteMapping("/movies/delete-all-directors")
+    @DeleteMapping("/delete-all-directors")
     public ResponseEntity<String> deleteAllDirectors(){
 
         String response=movieService.deleteAllDirectors();
