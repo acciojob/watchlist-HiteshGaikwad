@@ -89,21 +89,24 @@ public class MovieRepository {
     //Delete director by director name from db
     public String deleteFromDirectoryDb(String name){
 
-        List<String> list=new ArrayList<>();
-
-        if(movieDirectorDb.containsKey(name)) {
-
-            list=movieDirectorDb.get(name);
-
-            for(String movie: list){
-                if(movieDb.containsKey(movie)){
-                    movieDb.remove(movie);
-                }
-            }
+//        List<String> list=new ArrayList<>();
+//
+//        if(movieDirectorDb.containsKey(name)) {
+//
+//            list=movieDirectorDb.get(name);
+//
+//            for(String movie: list){
+//                if(movieDb.containsKey(movie)){
+//                    movieDb.remove(movie);
+//                }
+//            }
+//            movieDirectorDb.remove(name);
+//        }
+//        if(directorDb.containsKey(name)){
+//            directorDb.remove(name);
+//        }
+        if(movieDirectorDb.containsKey(name)){
             movieDirectorDb.remove(name);
-        }
-        if(directorDb.containsKey(name)){
-            directorDb.remove(name);
         }
         return "Successfully Deleted";
     }
