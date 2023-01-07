@@ -127,4 +127,9 @@ public class MovieService {
     public void deleteAllDirectors(){
         movieRepository.deleteAllDirector();
     }
+
+    public String getDirectorByMovie(String movieName){
+       String director= movieRepository.getDirectorByMovieName(movieName);
+        return director;
+    }
 }

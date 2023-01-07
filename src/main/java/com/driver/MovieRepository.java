@@ -1,140 +1,3 @@
-//package com.driver;
-//
-//import org.springframework.http.ResponseEntity;
-//
-//import java.util.ArrayList;
-//import java.util.HashMap;
-//import java.util.HashSet;
-//import java.util.List;
-//
-//@org.springframework.stereotype.Repository
-//
-//public class MovieRepository {
-//
-//  HashMap<String, Movie> movieDb;
-//  HashMap<String, Director> directorDb;
-//    HashMap<String, List<String>> movieDirectorDb;
-//
-//    public MovieRepository() {
-//        this.movieDb = new HashMap<String, Movie>();
-//        this.directorDb = new HashMap<String, Director>();
-//        this.movieDirectorDb =new HashMap<String, List<String>>();
-//    }
-//
-//    //Add Movie to DB
-//    public void addMovieToDb(Movie movie){
-//        String key= movie.getName();
-//        movieDb.put(key,movie);
-//    }
-//
-//    //Add director to Db
-//    public void addDirectorToDb(Director director){
-//
-//        String key=director.getName();
-//        directorDb.put(key,director);
-//
-//    }
-//
-//    //Add Movie and Director to DB
-//    public String addMovieDirectorToDb(String movieName, String directorName){
-//
-//        if(movieDb.containsKey(movieName) && directorDb.containsKey(directorName)) {
-//            List<String> list =new ArrayList<>();
-//
-//            if (movieDirectorDb.containsKey(directorName)) {
-//
-//                list = movieDirectorDb.get(directorName);
-//
-//                list.add(movieName);
-//
-//                movieDirectorDb.put(directorName, list);
-//            }
-//        }
-//        return "Successfully Added.";
-//    }
-//
-//    //Get movie by in from movieDb
-//    public Movie getMovieByName(String movieName){
-//
-//        return movieDb.get(movieName);
-//    }
-//
-//    //Get director by  name
-//    public Director getDirectorByName(String directorName){
-//
-//        return directorDb.get(directorName);
-//    }
-//
-//    //get list of the movies by director name from movie-director DB
-//    public List<String> getMoviesByDirectorNameFromDb(String directorName){
-//
-//        List<String> list=new ArrayList<>();
-//
-//        if(movieDirectorDb.containsKey(directorName)) {
-//
-//            list = movieDirectorDb.get(directorName);
-//        }
-//            return list;
-//    }
-//
-//    //Get list of all movies added to DB
-//    public List<String> getMoviesFromDb(){
-//        List<String> list=new ArrayList<>();
-//        for(String names: movieDb.keySet()){
-//            list.add(names);
-//        }
-//        return list;
-//    }
-//
-//    //Delete director by director name from db
-//    public String deleteFromDirectoryDb(String name){
-//
-////        List<String> list=new ArrayList<>();
-////
-////        if(movieDirectorDb.containsKey(name)) {
-////
-////            list=movieDirectorDb.get(name);
-////
-////            for(String movie: list){
-////                if(movieDb.containsKey(movie)){
-////                    movieDb.remove(movie);
-////                }
-////            }
-////            movieDirectorDb.remove(name);
-////        }
-////        if(directorDb.containsKey(name)){
-////            directorDb.remove(name);
-////        }
-//        if(movieDirectorDb.containsKey(name)){
-//            movieDirectorDb.remove(name);
-//        }
-//        return "Successfully Deleted";
-//    }
-//
-//    //Delete all directors and all movies which are in pair
-//    public String deleteFromRecords(){
-//
-//        HashSet<String> moviesSet=new HashSet<>();
-//
-//        directorDb=new HashMap<>();
-//
-//        for(String director: movieDirectorDb.keySet()){
-//
-//            for(String name: movieDirectorDb.get(director)){
-//                moviesSet.add(name);
-//            }
-//        }
-//        for(String movie: moviesSet){
-//            if(movieDb.containsKey(movie)){
-//                movieDb.remove(movie);
-//            }
-//        }
-//        movieDirectorDb=new HashMap<>();
-//        return "Successfully Deleted";
-//    }
-//
-//}
-
 
 package com.driver;
 
@@ -149,15 +12,12 @@ public class MovieRepository {
     private HashMap<String, Director> directorMap;
     private HashMap<String, List<String>> directorMovieMapping;
 
-    //Pair is : DirectorName, List of Movie Names
 
 
-    //Initialization is very important :
-
-    public MovieRepository(){
-        this.movieMap = new HashMap<String, Movie>();
-        this.directorMap = new HashMap<String, Director>();
-        this.directorMovieMapping = new HashMap<String, List<String>>();
+    public MovieRepository(HashMap<String, Movie> movieMap, HashMap<String, Director> directorMap, HashMap<String, List<String>> directorMovieMapping) {
+        this.movieMap = movieMap;
+        this.directorMap = directorMap;
+        this.directorMovieMapping = directorMovieMapping;
     }
 
     public void saveMovie(Movie movie){
@@ -170,14 +30,13 @@ public class MovieRepository {
 
     public void saveMovieDirectorPair(String movie, String director){
 
-        //1. Add the movie into Datbase ---> WRONG bcz I dont have te movie object
+        List<String> currentMoviesByDirector = new ArrayList<>();
 
-        if(movieMap.containsKey(movie)&&directorMap.containsKey(director)){
+        if(movieMap.containsKey(movie)&&directorMap.containsKey(director)) {
 
-            List<String> currentMoviesByDirector = new ArrayList<>();
-
-            if(directorMovieMapping.containsKey(director))
+            if (directorMovieMapping.containsKey(director)){
                 currentMoviesByDirector = directorMovieMapping.get(director);
+        }
 
             currentMoviesByDirector.add(movie);
 
@@ -187,8 +46,12 @@ public class MovieRepository {
 
     }
 
-    public Movie findMovie(String movie){
-        return movieMap.get(movie);
+    public Movie findMovie(String movieName){
+        Movie movie=null;
+        if(movieMap.containsKey(movieName)){
+            movie=movieMap.get(movieName);
+        }
+        return movie;
     }
 
     public Director findDirector(String director){
@@ -196,8 +59,10 @@ public class MovieRepository {
     }
 
     public List<String> findMoviesFromDirector(String director){
-        List<String> moviesList = new ArrayList<String>();
-        if(directorMovieMapping.containsKey(director)) moviesList = directorMovieMapping.get(director);
+        List<String> moviesList = new ArrayList<>();
+        if(directorMovieMapping.containsKey(director)) {
+            moviesList = directorMovieMapping.get(director);
+        }
         return moviesList;
     }
 
@@ -253,5 +118,20 @@ public class MovieRepository {
         }
         //clearing the pair.
         directorMovieMapping = new HashMap<>();
+    }
+
+    //Get Director by Movie name from database
+    public String getDirectorByMovieName(String movieName){
+
+        for(String directorName: directorMovieMapping.keySet()){
+            List<String> movieList=new ArrayList<>();
+            movieList=directorMovieMapping.get(directorName);
+            for(String name: movieList){
+                if(name.equals(movieName)){
+                    return directorName;
+                }
+            }
+        }
+        return null;
     }
 }

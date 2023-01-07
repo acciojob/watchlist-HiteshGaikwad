@@ -104,6 +104,7 @@
 
 package com.driver;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -122,6 +123,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("movies")
 public class MovieController {
+
     @Autowired
     MovieService movieService;
 
@@ -156,9 +158,10 @@ public class MovieController {
     }
 
     @GetMapping("/get-movies-by-director-name/{director}")
-    public ResponseEntity<List<String>> getMoviesByDirectorName(@PathVariable String director){
-        List<String> movies = movieService.findMoviesFromDirector(director);
-        return new ResponseEntity<>(movies, HttpStatus.CREATED);
+    public ResponseEntity<List<String>> getMoviesByDirectorName(@PathVariable() String director){
+        List<String> movies=new ArrayList<>();
+                movies = movieService.findMoviesFromDirector(director);
+        return new ResponseEntity<>(movies, HttpStatus.OK);
     }
 
     @GetMapping("/get-all-movies")
@@ -168,7 +171,7 @@ public class MovieController {
     }
 
     @DeleteMapping("/delete-director-by-name")
-    public ResponseEntity<String> deleteDirectorByName(@RequestParam String director){
+    public ResponseEntity<String> deleteDirectorByName(@RequestParam("director") String director){
         movieService.deleteDirector(director);
         return new ResponseEntity<>(director + " removed successfully", HttpStatus.CREATED);
     }
@@ -176,5 +179,12 @@ public class MovieController {
     public ResponseEntity<String> deleteAllDirectors(){
         movieService.deleteAllDirectors();
         return new ResponseEntity<>("All directors deleted successfully", HttpStatus.CREATED);
+    }
+
+    //Get Director name by Movie name
+    @GetMapping("/get_director_by_movie_name/{movieName}")
+    public ResponseEntity<String> getDirectorByMovieName(@PathVariable String movieName){
+        String director=movieService.getDirectorByMovie(movieName);
+        return new ResponseEntity<>(director,HttpStatus.OK);
     }
 }
